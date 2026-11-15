@@ -5,7 +5,6 @@
 
 读取 problems/*.md 和 libs.md，输出：
   - index.html  单文件页面（数据内嵌，双击即可打开，也可直接挂 GitHub Pages）
-                progress.json 若存在，会作为掌握程度的初始值一起嵌进去
   - README.md   刷新 <!-- LIST:START --> 与 <!-- LIST:END --> 之间的题目总表
 
 只用标准库。支持的 Markdown 子集：标题、列表（可嵌套）、代码块、行内代码、
@@ -337,14 +336,6 @@ def render_libs(text, sections):
     return render_markdown("\n".join(out), attrs)
 
 
-def load_seed():
-    """progress.json：仓库里保存的掌握程度，作为页面的初始值（浏览器里的标记会覆盖它）。"""
-    path = ROOT / "progress.json"
-    if not path.exists():
-        return {}
-    return json.loads(path.read_text(encoding="utf-8")).get("progress", {})
-
-
 # ---------------------------------------------------------------- 输出
 
 def build_readme(problems):
@@ -378,7 +369,6 @@ def main():
             "html": render_libs(libs_text, sections),
             "sections": [{k: s[k] for k in ("id", "lang", "name")} for s in sections],
         },
-        "seed": load_seed(),
     }
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     template = (ROOT / "scripts" / "template.html").read_text(encoding="utf-8")

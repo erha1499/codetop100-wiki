@@ -25,9 +25,9 @@
 
 ### 掌握程度存在哪
 
-标记保存在浏览器的 localStorage 里（换浏览器 / 换设备不会同步）。仓库里的 `progress.json` 是初始值，页面上的标记会覆盖它。
+标记只保存在当前浏览器的 localStorage 里，默认全部未标记。每个人、每个浏览器的进度互相独立，不会上传，也不会共享。
 
-想把进度存进仓库或者同步到另一台设备：页面左下角「导出进度」得到 `progress.json` → 覆盖仓库根目录的同名文件 → `python3 scripts/build.py` → 提交。另一台设备上也可以直接「导入进度」。
+换设备时：在 `⋯` 里「导出」得到 `progress.json`，到另一台设备上「导入」。
 
 ## 目录
 
@@ -35,7 +35,6 @@
 index.html            生成的页面（不要手改）
 problems/*.md         每题一个文件：front matter + 思路 / 易错点 / 代码
 libs.md               算法常用库速查（Python / Java）
-progress.json         掌握程度的初始值
 scripts/build.py      problems/*.md + libs.md -> index.html，并刷新本文件的题目总表
 scripts/check.py      跑一遍所有笔记里的 Python / Java 代码
 scripts/cases.py      check.py 用的测试用例

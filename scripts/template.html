@@ -192,12 +192,11 @@ const store = {
   get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
 };
-const SEED = DATA.seed || {};                             // 仓库里 progress.json 的内容，作为初始值
-let progress = store.get('ct100.progress', {});          // key -> { l: 0|1|2|3, t: 'YYYY-MM-DD' }，覆盖 SEED
+let progress = store.get('ct100.progress', {});          // 只存在当前浏览器：key -> { l: 0|1|2|3, t: 'YYYY-MM-DD' }
 const ui = Object.assign({ tag: '', level: 'all', sort: 'rank', recall: false, lang: 'python' }, store.get('ct100.ui', {}));
 let query = '', cur = null, revealed = false;
 
-const entryOf = key => progress[key] || SEED[key];
+const entryOf = key => progress[key];
 const levelOf = key => (entryOf(key) && entryOf(key).l) || 0;
 const saveUi = () => store.set('ct100.ui', ui);
 
@@ -324,7 +323,6 @@ function mark(l) {
   const d = new Date(), pad = n => String(n).padStart(2, '0');
   const t = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
   if (l && levelOf(cur) !== l) progress[cur] = { l, t };
-  else if (SEED[cur]) progress[cur] = { l: 0, t };        // 取消标记：要盖住仓库里的初始值
   else delete progress[cur];
   store.set('ct100.progress', progress);
   render();
@@ -386,7 +384,6 @@ $('file').addEventListener('change', async e => {
     for (const p of P) {                                  // 文件里没有的题视为未标记
       const e = obj.progress[p.key];
       if (e && e.l) progress[p.key] = e;
-      else if (SEED[p.key]) progress[p.key] = { l: 0, t: '' };
     }
     store.set('ct100.progress', progress); render();
   } catch (err) { alert('导入失败：' + err.message); }
