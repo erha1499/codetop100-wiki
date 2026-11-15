@@ -6,7 +6,8 @@
 
 ## 怎么用
 
-- **网页**：直接用浏览器打开 `index.html`（单文件，数据内嵌，不需要服务器）。
+- **在线**：<https://erha1499.github.io/codetop100-wiki/>（GitHub Pages，推送到 `main` 后自动更新）。
+- **本地**：直接用浏览器打开 `index.html`（单文件，数据内嵌，不需要服务器）。
 - **GitHub 上直接看**：下面的[题目总表](#题目总表)点进每题的 Markdown；常用库速查见 [libs.md](libs.md)。
 
 网页功能：
